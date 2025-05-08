@@ -14,7 +14,7 @@ function StudentList() {
   return (
     <>
       <Header />
-      <div className="w-[80%] mx-auto p-[20px] bg-white shadow-lg rounded">
+      <div className="w-[80%] mx-auto p-[20px] bg-white shadow-lg rounded overflow-x-auto">
         <h2 className="text-xl font-bold text-center mb-4">Students List</h2>
         {students.length === 0 ? (
           <p className="text-center text-gray-500">No student data found.</p>
