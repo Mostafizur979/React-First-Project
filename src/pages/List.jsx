@@ -14,13 +14,14 @@ function StudentList() {
   return (
     <>
       <Header />
-      <div className="w-[80%] mx-auto p-[20px] bg-white shadow-lg rounded overflow-x-auto">
+      <div className="w-[80%] mx-auto p-[20px] bg-white shadow-lg rounded ">
         <h2 className="text-xl font-bold text-center mb-4">Students List</h2>
+        <div className="w-full overflow-x-auto">
         {students.length === 0 ? (
           <p className="text-center text-gray-500">No student data found.</p>
         ) : (
-          
-          <table className=" w-full text-left">
+
+          <table className="w-full text-left">
             <thead>
               <tr className="bg-[#f1f5f9] text-gray-700">
                 <th className="p-2">Name</th>
@@ -68,6 +69,7 @@ function StudentList() {
             </tbody>
           </table>
         )}
+        </div>
       </div>
       <Outlet />
     </>
