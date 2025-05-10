@@ -5,6 +5,8 @@ import App from './App.jsx'
 import Form from './pages/Form.jsx'
 import StudentList from './pages/List.jsx'
 import Update from './pages/Update.jsx'
+import XHR from './pages/XHR.jsx'
+import Travel from './pages/GraphQL.jsx'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 createRoot(document.getElementById('rootq')).render(
@@ -12,8 +14,10 @@ createRoot(document.getElementById('rootq')).render(
       <BrowserRouter>
       <Routes>
         <Route index element={<Form />} />
-        <Route path="studentlist" element={<StudentList />} />
+        <Route path="student-list" element={<StudentList />} />
         <Route path="updateinfo" element={<Update />} />
+        <Route path="xhr-products-list" element={<XHR />} />
+        <Route path="graphql" element={<Travel/>} />
       </Routes>
       </BrowserRouter>
   </StrictMode>,
