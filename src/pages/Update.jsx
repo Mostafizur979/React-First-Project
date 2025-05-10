@@ -6,6 +6,7 @@ function Update(){
     const location = useLocation();
     const { mobile,index } = location.state || {};
     const studentData = JSON.parse(localStorage.getItem("students")) || [];
+    const [flag, setFlag] = useState(true);
     const studentsInfo = studentData.filter(student => student.mobile == mobile);
     const [inputs, setInputs] = useState(
         {username:studentsInfo[0].name,
@@ -44,25 +45,27 @@ function Update(){
         othersInfo: othersInfo ? othersInfo : ''
        };
 
-      if(newStudent.name.length == 0){
-        alert("Student name is required field, it's can't be empty");
+       if(newStudent.name.length < 3){
+        setFlag(false);
       } 
-      else if(newStudent.mobile.length != 11){
-        alert("Please provide valid mobile number")
+      else if(newStudent.mobile.length != 11 || newStudent.mobile.slice(0, 2) !== '01'){
+        setFlag(false);
       }
-      else if(newStudent.upazila.length == 0){
-        alert("Upazila is required field, it's can't be empty")
+      else if(newStudent.upazila.length < 2){
+        setFlag(false);
       }
-      else if(newStudent.district.length == 0){
-        alert("District is required field, it's can't be empty")
+      else if(newStudent.district.length < 2){
+        setFlag(false);
       }
       else if(newStudent.gender.length == 0){
-        alert("Please Select Gender")
+        alert("Please Select Gender!");
+        setFlag(false);
       }
-      else if(newStudent.othersInfo.length == 0){
-        alert("Please provide some additional information for student, it's can't be empty")
+      else if(newStudent.othersInfo.length < 2){
+        setFlag(false);
       }
       else{
+        setFlag(true);
         studentData[index].name = newStudent.name;
         studentData[index].mobile = newStudent.mobile;
         studentData[index].upazila = newStudent.upazila;
@@ -90,7 +93,13 @@ function Update(){
                     value={inputs.username || ""} 
                     onChange={handleChange}
                     className="w-[100%] p-[8px] outline-0 border-[1px] border-[#309898] rounded-[5px]"
+                    required
                 />
+                {
+                  inputs.username && inputs.username.length < 3 && (
+                    <span className="text-red-500">Name should be greater than 3 letters</span>
+                  )
+                }
             </div>
             <div>
                 <p className="text-[18px]">Mobile</p>
@@ -100,7 +109,15 @@ function Update(){
                     value={inputs.mobile || ""} 
                     onChange={handleChange}
                     className="w-[100%] p-[8px] outline-0 border-[1px] border-[#309898] rounded-[5px]"
+                    required
                 />
+                {
+                  inputs.mobile && 
+                  (inputs.mobile.length !== 11 || inputs.mobile.slice(0, 2) !== '01') && (
+                    <span className="text-red-500">Mobile number should be 11 digits and start with '01'</span>
+                  )
+                }
+
             </div>
             <div>
                 <p className="text-[18px]">Upazila</p>
@@ -110,7 +127,13 @@ function Update(){
                     value={inputs.upazila || ""} 
                     onChange={handleChange}
                     className="w-[100%] p-[8px] outline-0 border-[1px] border-[#309898] rounded-[5px]"
+                    required
                 />
+                {
+                  inputs.upazila && inputs.upazila.length < 2 && (
+                    <span className="text-red-500">Please Provive Valid Upazila Name</span>
+                  )
+                }
             </div>
             <div>
                 <p className="text-[18px]">District</p>
@@ -120,7 +143,13 @@ function Update(){
                     value={inputs.district || ""} 
                     onChange={handleChange}
                     className="w-[100%] p-[8px] outline-0 border-[1px] border-[#309898] rounded-[5px]"
+                    required
                 />
+                {
+                  inputs.district && inputs.district.length < 2 && (
+                    <span className="text-red-500">Please Provive Valid District Name</span>
+                  )
+                }
             </div>
             <div>
                 <p className="text-[18px]">Class</p>
@@ -172,10 +201,20 @@ function Update(){
             </div>
             <div className="lg:col-span-2" >
                 <p className="text-[18px]">Others Information</p>
-                <textarea value={othersInfo} onChange={handleChangeOthersInfo} className="w-[100%] p-[8px] outline-0 border-[1px] border-[#309898] rounded-[5px]"/>
+                <textarea value={othersInfo} onChange={handleChangeOthersInfo} className="w-[100%] p-[8px] outline-0 border-[1px] border-[#309898] rounded-[5px]" required/>
+                {
+                  othersInfo && othersInfo.length < 2 && (
+                    <span className="text-red-500">Please Added Some Additional Information</span>
+                  )
+                }
             </div>
 
             <button type="Submit" className="lg:col-span-2 bg-[#309898] border-[2px] text-white text-[18px] p-[10px] rounded-[10px]  duration-[0.5s] border-box hover:border-[2px]  hover:bg-white border-[#309898] hover:text-[#309898]">Submit</button>
+            {
+              flag === false && (
+                <span className="text-red-500">Please fix all issues before submitting this form</span>
+              )
+            }
             <ToastContainer />
          </form>
         </div>
